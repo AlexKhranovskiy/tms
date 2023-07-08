@@ -21,7 +21,6 @@ class TaskFactory extends Factory
         return [
             'title' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'status' => $this->faker->randomElement([StatusEnum::fresh, StatusEnum::done]),
             'priority' => $this->faker->randomElement([PriorityEnum::high ,PriorityEnum::middle, PriorityEnum::low])
         ];
     }

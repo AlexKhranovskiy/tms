@@ -14,6 +14,7 @@ class TaskController extends Controller
 
    public function create(Request $request)
    {
-
+       Task::create($request->toArray());
+       return response()->json(['message' => 'Task successfully created'], 201);
    }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->enum('status', ['fresh', 'done']);
+            $table->enum('status', ['fresh', 'done'])->default('fresh');
             $table->enum('priority', ['high', 'middle', 'low']);
             $table->timestamps();
         });
