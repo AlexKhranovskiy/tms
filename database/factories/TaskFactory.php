@@ -18,8 +18,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => 'title',
-            'description' => 'description',
+            'title' => $this->faker->word,
+            'description' => $this->faker->sentence,
             'status' => 0,
             'priority' => PriorityEnum::low,
         ];
