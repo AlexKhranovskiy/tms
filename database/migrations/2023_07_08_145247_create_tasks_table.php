@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enums\PriorityEnum;
+use App\Enums\StatusEnum;
 
 return new class extends Migration
 {
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->tinyInteger('status');
+            $table->enum('status', ['fresh', 'done']);
             $table->enum('priority', ['high', 'middle', 'low']);
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\PriorityEnum;
+use App\Enums\StatusEnum;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
@@ -20,8 +21,8 @@ class TaskFactory extends Factory
         return [
             'title' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'status' => 0,
-            'priority' => PriorityEnum::low,
+            'status' => $this->faker->randomElement([StatusEnum::fresh, StatusEnum::done]),
+            'priority' => $this->faker->randomElement([PriorityEnum::high ,PriorityEnum::middle, PriorityEnum::low])
         ];
     }
 }
