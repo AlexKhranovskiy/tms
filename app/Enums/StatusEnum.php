@@ -2,10 +2,9 @@
 
 namespace App\Enums;
 
-enum StatusEnum : string {
+enum StatusEnum : string
+{
+    case fresh = 'fresh';
 
-case fresh = 'fresh';
-
-case done = 'done';
-
+    case done = 'done';
 }

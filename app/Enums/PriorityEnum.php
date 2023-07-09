@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum PriorityEnum : string {
+enum PriorityEnum : string
+{
+    case high = 'high';
 
-case high = 'high';
-
-case low = 'low';
+    case low = 'low';
 }
