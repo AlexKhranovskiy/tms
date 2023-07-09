@@ -2,28 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TaskResourceCollection;
-use App\Repositories\TaskRepository;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    protected TaskRepository $taskRepository;
-    protected Request $request;
+    protected TaskService $taskService;
 
-    public function __construct(TaskRepository $taskRepository, Request $request)
+    /**
+     * TaskController constructor.
+     * @param TaskService $taskService
+     */
+    public function __construct(TaskService $taskService)
     {
-        $this->taskRepository = $taskRepository;
-        $this->request = $request;
+        $this->taskService = $taskService;
     }
 
-    public function index()
+    /**
+     * @param Request $request
+     * @return \App\Http\Resources\TaskResourceCollection
+     * @throws \Exception
+     */
+    public function index(Request $request)
     {
-        return new TaskResourceCollection($this->taskRepository->all($this->request));
+        return $this->taskService->getAll($request);
     }
 
-    public function store()
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
     {
-        return $this->taskRepository->store($this->request);
+        return $this->taskService->create($request);
     }
 }

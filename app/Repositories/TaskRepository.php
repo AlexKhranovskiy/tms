@@ -7,21 +7,28 @@ namespace App\Repositories;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 
 class TaskRepository
 {
     protected Task $task;
 
+    /**
+     * TaskRepository constructor.
+     * @param Task $task
+     */
     public function __construct(Task $task)
     {
         $this->task = $task;
     }
 
     /**
+     * @param Request $request
+     * @return Collection
      * @throws \Exception
      */
-    public function all($request): Collection
+    public function all(Request $request): Collection
     {
         if (!$request->has('sort_field')) {
             return $this->task->all();
@@ -74,7 +81,11 @@ class TaskRepository
         }
     }
 
-    public function store($request): JsonResponse
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function store(Request $request): JsonResponse
     {
         $this->task->create($request->toArray());
         return response()->json(['message' => 'Task successfully created'], 201);
