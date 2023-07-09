@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskResourceCollection;
-use App\Models\Task;
 use App\Repositories\TaskRepository;
 use Illuminate\Http\Request;
 

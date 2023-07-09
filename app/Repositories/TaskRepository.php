@@ -8,7 +8,7 @@ use App\Models\Task;
 
 class TaskRepository
 {
-    protected $task;
+    protected Task $task;
 
     public function __construct(Task $task)
     {
