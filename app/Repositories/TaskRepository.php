@@ -5,6 +5,9 @@ namespace App\Repositories;
 
 
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+
 
 class TaskRepository
 {
@@ -18,13 +21,13 @@ class TaskRepository
     /**
      * @throws \Exception
      */
-    public function all($request)
+    public function all($request): Collection
     {
         if (!$request->has('sort_field')) {
             return $this->task->all();
         } else {
             $sortParams = $request->get('sort_field');
-            $query = Task::query();
+            $query = $this->task->newQuery();
             foreach ($sortParams as $key => $value) {
                 switch ($key) {
                     case 'status':
@@ -71,7 +74,7 @@ class TaskRepository
         }
     }
 
-    public function store($request)
+    public function store($request): JsonResponse
     {
         $this->task->create($request->toArray());
         return response()->json(['message' => 'Task successfully created'], 201);
