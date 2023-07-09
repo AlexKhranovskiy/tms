@@ -69,7 +69,12 @@ class TaskRepository
             }
             return $query->get();
         }
+    }
 
+    public function store($request)
+    {
+        $this->task->create($request->toArray());
+        return response()->json(['message' => 'Task successfully created'], 201);
     }
 
 
