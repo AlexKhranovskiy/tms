@@ -1,66 +1,202 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+### Task management system
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Веб-проложение позволяющее создать задачу(Task), просмотреть все задачи, отсортировать вывод всех задач.
+Сортировка вывода задач по таким полям:
+* status
+* priority
+* created_at
 
-## About Laravel
+Поле status имеет значения:
+* fresh
+* done
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Поле priority имеет значения
+* high
+* low
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Возможна сортировка по одному полю или по нескольким.
+Данные сохранются в БД. Приложение не имеет графического интрефейса. Для взаимодействия с ним используется REST API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Эндопоинты и методы REST API:
+* Сохранение новой задачи: 
+    POST ```/tasks```
+    Формат JSON для отправки:
+    ```json
+    {
+        "title": "new title",
+        "description": "Some description",
+        "priority": "high",
+        "status": "fresh"
+    }
+    ```
 
-## Learning Laravel
+* Получение всех задач
+    GET ```/tasks```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Получение задач и фильтрация
+    GET ```/tasks?sort_field[your_filed]=your_method```
+    your_field могут быть:
+    * status
+    * priority
+    * created_at
+    
+    your_method могут быть:
+    * fresh/done (для status)
+    * high/low (для priority)
+    * desc/asc (для created_at)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Пример запроса всех задач и со всеми фильтрами:
+    GET ```http://localhost/api/tasks?sort_field[status]=fresh&sort_field[priority]=high&sort_field[created_at]=desc```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Пример возможного ответа:
+```json
+    "data": [
+        {
+            "id": 15,
+            "title": "new title",
+            "description": "Some description1",
+            "status": "fresh",
+            "priority": "high",
+            "created_at": "2023-07-09T18:06:28.000000Z",
+            "updated_at": "2023-07-09T18:06:28.000000Z"
+        },
+        {
+            "id": 14,
+            "title": "new title",
+            "description": "Some description1",
+            "status": "fresh",
+            "priority": "high",
+            "created_at": "2023-07-09T17:34:07.000000Z",
+            "updated_at": "2023-07-09T17:34:07.000000Z"
+        },
+        {
+            "id": 13,
+            "title": "new title",
+            "description": "Some description1",
+            "status": "fresh",
+            "priority": "high",
+            "created_at": "2023-07-09T17:07:05.000000Z",
+            "updated_at": "2023-07-09T17:07:05.000000Z"
+        },
+        {
+            "id": 12,
+            "title": "new title",
+            "description": "Some description1",
+            "status": "fresh",
+            "priority": "high",
+            "created_at": "2023-07-09T17:05:12.000000Z",
+            "updated_at": "2023-07-09T17:05:12.000000Z"
+        },
+        {
+            "id": 5,
+            "title": "sapiente",
+            "description": "Cupiditate vero neque quaerat ipsum aliquam.",
+            "status": "fresh",
+            "priority": "high",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 4,
+            "title": "rerum",
+            "description": "Nostrum ut quaerat qui vel at velit et ducimus.",
+            "status": "fresh",
+            "priority": "low",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 6,
+            "title": "quam",
+            "description": "Ut odit sit officia accusantium itaque.",
+            "status": "fresh",
+            "priority": "low",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 3,
+            "title": "voluptas",
+            "description": "Doloribus voluptas minus eligendi sint quisquam ipsam.",
+            "status": "done",
+            "priority": "high",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 8,
+            "title": "laborum",
+            "description": "Eaque corrupti nostrum autem cumque voluptatem.",
+            "status": "done",
+            "priority": "high",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 10,
+            "title": "fugit",
+            "description": "Sequi sunt consectetur est sunt dolorem.",
+            "status": "done",
+            "priority": "high",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 11,
+            "title": "sfdsfdssdfsdf",
+            "description": "sdfsdf",
+            "status": "done",
+            "priority": "low",
+            "created_at": "2023-07-09T19:25:42.000000Z",
+            "updated_at": null
+        },
+        {
+            "id": 1,
+            "title": "odio",
+            "description": "Doloremque pariatur est atque itaque molestias voluptas.",
+            "status": "done",
+            "priority": "low",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 2,
+            "title": "aliquam",
+            "description": "Optio sit fuga eligendi.",
+            "status": "done",
+            "priority": "low",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 7,
+            "title": "et",
+            "description": "Dolores dolorem dolor recusandae est voluptatum sit voluptas.",
+            "status": "done",
+            "priority": "low",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        },
+        {
+            "id": 9,
+            "title": "sunt",
+            "description": "Rem dolores rerum sequi laboriosam officiis natus.",
+            "status": "done",
+            "priority": "low",
+            "created_at": "2023-07-09T15:26:05.000000Z",
+            "updated_at": "2023-07-09T15:26:05.000000Z"
+        }
+    ]
+}
+```
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Запуск
+На вашей машине должен быть установлен Docker
+* Склонируйте репозиторий
+* ```docker-compose up -d```
+* ```docker exec -it tms_php-apache_1 bash```
+* Скоприуйте содержимаое файла .env.example в файл .env
+* ```composer update --no-scripts```
+* ```php artisan optimize```
+* ```php artisan migrate --seed```
+* Приложение готово принимать запросы на ```http://localhost/api```
