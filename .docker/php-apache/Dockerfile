@@ -1,15 +1,21 @@
 FROM php:8.1.0-apache
 
-# Копирование фалов проекта
 COPY ./../../ /var/www/html
 
-# Замена дефолтного хоста Apache
 COPY ./../../.docker/php-apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-# Обновление пакетов
 RUN apt-get update
 
-# Установка и активация расширения pdo_mysql
 RUN docker-php-ext-install pdo_mysql
 
 RUN a2enmod rewrite
+
+RUN apt-get update && apt-get -y --no-install-recommends install git
+RUN curl -sS https://getcomposer.org/installer | \
+php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN apt-get update && apt-get install -y \
+    zlib1g-dev \
+    libzip-dev \
+    unzip
+RUN docker-php-ext-install zip

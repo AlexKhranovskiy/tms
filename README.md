@@ -192,11 +192,11 @@
 
 ### Запуск
 На вашей машине должен быть установлен Docker
-* Склонируйте репозиторий
+* Склонируйте репозиторий (https://github.com/A-Khranovsky/tms)
+* Скоприуйте содержимаое файла .env.example в файл .env
 * ```docker-compose up -d```
 * ```docker exec -it tms_php-apache_1 bash```
-* Скоприуйте содержимаое файла .env.example в файл .env
-* ```composer update --no-scripts```
+* ```composer update --no-cache```
 * ```php artisan optimize```
 * ```php artisan migrate --seed```
-* Приложение готово принимать запросы на ```http://localhost/api```
+* Приложение готово принимать запросы на ```http://localhost/api``` + эндпоинт
